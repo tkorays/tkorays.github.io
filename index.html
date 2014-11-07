@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>tkorays</title>
-</head>
-<body>
+---
+layout: default
+---
 
-hello world!
-<br>
-<a href="blog.html">go to the blog page</a>
-</body>
-</html>
+<div>
+<ul>
+{% for post in site.posts %}
+<li>
+<h1><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h1>
+<span>{{ post.date | date: "%b %-d,%Y" }}</span>
+</li>
+{% endfor %}
+<ul>
 
+</div>
