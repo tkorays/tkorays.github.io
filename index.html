@@ -1,15 +1,12 @@
 ---
 layout: default
 ---
+<!-- <span>post.date | date: "%b %-d,%Y"</span> -->
 
-<div>
-<ul>
-{% for post in site.posts %}
-<li>
-<h1><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h1>
-<span>{{ post.date | date: "%b %-d,%Y" }}</span>
-</li>
-{% endfor %}
-<ul>
-
+<div class="content">
+	<ul>
+		{% for post in site.posts %}
+		<li><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></li>
+		{% endfor %}
+	</ul>
 </div>
