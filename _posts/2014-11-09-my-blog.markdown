@@ -2,7 +2,9 @@
 layout: post
 title: "完成博客后的一个测试"
 pic: notepad
+summary: "这里是测试啊"
 date: 2014-11-9 17:05:00
+categories: diary
 ---
 
 ###这里是标题
