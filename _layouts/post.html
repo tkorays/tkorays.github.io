@@ -2,12 +2,16 @@
 <html>
 {% include head.html %}
 <body>
-<div class="page-ct">
-{% include post_header.html %}
+{% include header.html %}
+<div class="wrap">
 <div class="post">
-{{ content  }}
+		<h2>{{ page.title }}</h2>
+		<span class="date">{{ page.date | date: "%b %-d,%Y" }}</span>
+		<div class="content">
+		{{ content  }}
+		</div>
+</div>
 </div>
 {% include footer.html %}
-</div>
 </body>
 </html>

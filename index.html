@@ -1,12 +1,18 @@
 ---
 layout: default
 ---
-<!-- <span>post.date | date: "%b %-d,%Y"</span> -->
 
-<div class="content">
-	<ul>
-		{% for post in site.posts %}
-		<li><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></li>
-		{% endfor %}
-	</ul>
+<div class="article-list">
+	{% for post in site.posts %}
+	<div class="list">
+		<img src="img/notepad.png">
+		<h4><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h4>
+		<span class="date">{{ post.date | date: "%b %-d,%Y" }}</span>
+		<p class="summary">{{ post.summary }}</p>
+	</div>
+	{% endfor %}
 </div>
+<div class="pagenext">
+	<a href="#">下一页</a>
+</div>
+<div style="clear:both;"></div>

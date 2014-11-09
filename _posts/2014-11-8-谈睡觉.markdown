@@ -2,6 +2,7 @@
 layout: post
 title: "谈睡觉"
 date: 2014-11-7 11:06:00
+summary: sss
 categories: diary
 ---
 
