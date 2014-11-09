@@ -2,7 +2,7 @@
 layout: post
 title: "思考着"
 date: 2014-11-8 0:23:00
-summary: sss
+summary: "我们对自我的认识，从某些角度来说，过于狭隘；但是从另一些角度，又看的比别人清楚。"
 categories: diary
 pic: "music"
 ---
