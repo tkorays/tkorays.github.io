@@ -1,0 +1,1 @@
+echo $(date "+%Y-%m-%d")-$1.markdown
