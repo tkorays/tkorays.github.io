@@ -4,6 +4,7 @@ title: "谈睡觉"
 date: 2014-11-7 11:06:00
 summary: sss
 categories: diary
+pic: notepad
 ---
 
 这里是吐槽，前方高能，感到身体不适应者请离开。
