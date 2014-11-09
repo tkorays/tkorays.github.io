@@ -5,7 +5,7 @@ layout: default
 <div class="article-list">
 	{% for post in site.posts %}
 	<div class="list">
-		<img src="{% if post.pic!=empty %}{{ post.pic | prepend: site.baseurl }}{% else %}{{ "img/notepad.png" | prepend: site.baseurl }}{% endif %}">
+		<img src="{% if post.pic %}{{ post.pic | prepend: site.baseurl }}{% else %}{{ "img/notepad.png" | prepend: site.baseurl }}{% endif %}">
 		<h4><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h4>
 		<span class="date">{{ post.date | date: "%b %-d,%Y" }}</span>
 		<p class="summary">{{ post.summary }}</p>
