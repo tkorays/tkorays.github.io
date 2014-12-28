@@ -1,0 +1,112 @@
+html,body,.wrapper{
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+}
+.wrapper h6{
+    display: inline-block;
+}
+.wrapper .header{
+    width: 100%;
+    height: 60px;
+    background-color: #34495e;
+}
+.wrapper .header h4{
+    display: inline-block;
+    float: left;
+    margin: 10px 20px;
+    color: #fff;
+    font-weight: normal;
+}
+.wrapper .header a{
+    display: inline-block;
+    float: right;
+    margin: 20px 20px;
+}
+.wrapper .sidenav{
+    width: 200px;
+    min-height: 620px;
+    height: 100%;
+    margin: -60px 0 0 0;
+    background-color: #34495e;
+}
+
+.wrapper .sidenav ul{
+    width: 100%;
+    padding: 60px 0 0 0;
+}
+.wrapper .sidenav ul li{
+    width: 100%;
+    height: 48px;
+    line-height: 48px;
+    font-size: 14px;
+    text-indent: 2em;
+    color: #fff;
+    cursor: pointer;
+}
+.wrapper .sidenav ul li:hover,.wrapper .sidenav ul li.active{
+    color: #DB4C31;
+    background-color: #393939;
+}
+.wrapper .sidenav ul li i{
+    text-indent: 0;
+}
+.wrapper .content{
+    position: absolute;
+    top: 60px;
+    left: 200px;
+}
+.wrapper .content>div{
+    padding: 10px;
+}
+#ct_add .title{
+    width: 200px;
+    height: 20px;
+    border-width: 2px;
+    border-style: none none solid none;
+    background-color: transparent;
+}
+#ct_add .row{
+    height: 90px;
+    padding: 10px 10px;
+    background-color: #f4f4f4;
+    border-right: 4px;
+    border: 1px solid #ccc;
+}
+#ct_add .row span{
+    padding: 0 20px 0 0;
+}
+#ct_add select{
+    border: none;
+    width: 100px;
+    height: 24px;
+}
+#ct_category .head{
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+#ct_category .head button{
+    display: inline-block;
+    float: right;
+    margin-top: 5px;
+}
+#ct_category .list{
+    width: 280px;
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+#ct_category .list ul li{
+    height: 28px;
+    line-height: 28px;
+}
+#ct_category .list ul li span{
+    padding: 5px 40px 0 0;
+    width: 50px;
+}
+#ct_category .list ul li span.op{
+    cursor: pointer;
+
+}
