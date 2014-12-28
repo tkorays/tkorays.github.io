@@ -112,3 +112,16 @@ blockquote{
     font-size: 13px;
     letter-spacing: 0.1em;
 }
+.content .art-ct h1{
+    font-size: 40px;
+}
+.content .art-ct h2{
+    font-size: 32px;
+}
+.content .art-ct h3{
+    font-size: 28px;
+}
+.content .art-ct h4{
+    font-size: 24px;
+}
+
