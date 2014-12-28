@@ -3,7 +3,7 @@ layout: post
 title: "梦的路途"
 date: 2014-11-11 23:48:00
 summary: "一直向前，路途多遥远，梦想多飘渺，而我却不曾察觉。"
-categories: diary
+category: diary
 pic: "notepad"
 ---
 

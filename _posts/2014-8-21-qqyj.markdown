@@ -3,7 +3,7 @@ layout: post
 title: "穷且益坚"
 date: 2014-8-21 22:42:45
 summary: "我不能让我立即变得聪颖，但是我可以强迫自己勤劳；我不能马上察微知著，但我可以慎之又慎。"
-categories: diary
+category: diary
 pic: "notepad"
 ---
 

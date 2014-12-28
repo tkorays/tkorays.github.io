@@ -3,7 +3,7 @@ layout: post
 title: "夜间的幽灵"
 date: 2014-11-10 2:17:00
 summary: "我不愿做夜间的幽灵，只会想追寻一些东西。"
-categories: diary
+category: diary
 pic: "brush"
 ---
 
