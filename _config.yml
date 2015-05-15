@@ -4,7 +4,7 @@ email:       tkorays@hotmail.com
 author:      tkorays 
 description: "tkorays' home page"
 baseurl:     ""
-url:         "http://127.0.0.1:4000/"
+url:         "http://tkorays.github.io/"
 
 # Google analytics
 google_analytics:
