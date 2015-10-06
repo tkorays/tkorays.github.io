@@ -1,0 +1,57 @@
+# Harmony Jekyll theme general configurations 
+
+# Base URL
+baseurl: ""
+
+# Site live URL
+url: ""
+
+# Localhost 
+# url: http://127.0.0.1:4000  
+
+# Harmony theme configuration. Please change accordingly.
+harmony:
+  name: tkorays
+  # Little description about your site
+  description: "tkorays' personal blog"
+  meta_description: "tkorays' blog" 
+  basetheme: theme-base-01 # pre defined thmes are darken, blue-water, redish.
+  author: # Author details
+    name: tkorays
+    email: tkorays@hotmail.com
+    url: http://tkorays.github.io
+
+  # Google Analytics key, leave blank to ignore
+  google_analytics_key: 
+
+  # Profile links, leave blank to ignore
+  social: 
+    github: tkorays
+    twitter: tkorays
+    facebook: tkorays
+    gplus: 
+    dribble: 
+    pinterest: 
+  # Toggle disclaimer in footer
+  show_disclaimer: false
+
+# Conversion / Build settings 
+markdown:    kramdown
+highlighter: pygments # this is how you put pygments config in jekyll 2.0 instead of pygments: true
+
+# Permalinks
+permalink:        pretty
+
+exclude: 
+  - CNAME
+  - Gemfile
+  - Rakefile
+  - README.md
+  - .gitignore
+  - .sass-cache
+  - Gemfile.lock
+
+# Sass conversion configs
+sass:
+    sass_dir: assets/css/_sass
+    style: :compressed
