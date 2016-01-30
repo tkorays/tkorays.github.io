@@ -1,3 +1,3 @@
-#About
+# tkorays' Blog
 
-tkorays' blog
+Hello world!
