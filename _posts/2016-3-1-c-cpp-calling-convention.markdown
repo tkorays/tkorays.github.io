@@ -1,9 +1,7 @@
 ---
 layout: post
 title: C&C+ Calling Convention
-date: 2016-3-1 22:11:20
 ---
-
 调用约定(Calling Convention) 是计算机编程中一个比较底层的设计，它主要涉及：
 
 * 函数参数通过寄存器传递还是栈？
@@ -93,10 +91,9 @@ __clrcall是C++ .Net里面的。
 * 如果参数类型是类实例的引用，则使用“AAV1”，const引用则为`ABV1`。
 
 如：
+
 * `?FuncA@ClassA@@QAEXH@Z`表示`void ClassA::FuncA(int);`。
 * `?FuncB@ClassA@@QAEXABV1@Z`表示`void ClassA::FuncB(const ClassA&);`
-
-
 
 
 
