@@ -12,10 +12,10 @@ title: C&C+ Calling Convention
 * 调用者(caller)还是被调用者(called or callee)清理堆栈？
 
 
-# 1. Calling Conventions
+## 1. Calling Conventions
 在C和C++中有几种调用约定：`__cdecl`, `__stdcall`, `__fastcall`, `__thiscall`, `__clrcall`, `__vectorcall`。下面首先介绍几种调用约定。
 
-## 1.1 __cdecl
+### 1.1 __cdecl
 
 C Declaration Calling Convention，C声明调用约定。它是C和C++默认的调用约定。特点：
 
@@ -24,7 +24,7 @@ C Declaration Calling Convention，C声明调用约定。它是C和C++默认的�
 * 支持可变参数（函数自己并不知道自己有多少个参数，因此需要调用者来清除）。
 * 编译后函数名改编为：“_函数名”。如_funcname。
 
-## 1.2 __stdcall
+### 1.2 __stdcall
 
 Standard Calling Convention，标准调用约定。又称为Pascal Convention。特点：
 
@@ -33,7 +33,7 @@ Standard Calling Convention，标准调用约定。又称为Pascal Convention。
 * 需要一个函数原型，不支持变参函数。
 * 函数名改编：“_函数名@参数字节大小十进制”。如_funcname@8。
 
-## 1.3 __fastcall
+### 1.3 __fastcall
 
 Fast Calling Convention，快速调用约定。通过使用寄存器解决效率问题。特点：
 
@@ -41,24 +41,24 @@ Fast Calling Convention，快速调用约定。通过使用寄存器解决效率
 * 函数名改编：“@函数名@函数参数字节大小十进制”。
 * 返回方式同__stdcall。
 
-## 1.4 __thiscall
+### 1.4 __thiscall
 
 主要用于解决类中this指针传递的问题，使用寄存器来传递this指针。参数从右往左压栈，返回方式同__stdcall.
 
-## 1.5 __clrcall
+### 1.5 __clrcall
 
 __clrcall是C++ .Net里面的。
 
-## 1.6 __vectorcall
+### 1.6 __vectorcall
 
 要求尽可能在寄存器中传递参数。函数名改编为”@@函数名@参数字节数十进制”。这是微软自己添加的标准。
 总结
 
 除了`__cdecl`（以及`__clrcall`），其他的都是被调用者清除堆栈。
 
-# 2. 函数名修饰
+## 2. 函数名修饰
 
-## 2.1 C++中函数名修饰
+### 2.1 C++中函数名修饰
 在C语言中不存在重载，因此不需要担心同名函数问题，但是在C++中，使用C中的函数名修饰方式就存在问题。对于重载的函数，仅仅凭函数名和参数内存大小无法完全区分；类的成员函数表示并没有说明。所以在C++中，对于函数名改编需要一套策略。函数名格式大致如`?FuncName@@YGXZ`这种形式。
 
 * 修饰名以`?`开始，后面接函数名。
@@ -87,7 +87,7 @@ __clrcall是C++ .Net里面的。
 
 所以在C++中函数名改编和C不同，如果需要遵循C中的改编方式，可以使用`extern "C"{}`。
 
-## 2.2 C++成员函数名修饰
+### 2.2 C++成员函数名修饰
 类的成员函数的调用方式为thiscall，其函数名修饰方式和普通函数有些差别。成员函数名改编需在函数名和参数中间插入类名。且需要指定函数一些性质，如
 
 * public为@@QAE，protected为@@IAE，private为@@AAE
