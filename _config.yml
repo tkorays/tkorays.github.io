@@ -6,7 +6,7 @@ url: ""
 # Dependencies
 # markdown:         redcarpet
 markdown:         kramdown
-highlighter:      pygments
+highlighter:      rouge
 permalink:        pretty
 
 title:            tkorays
