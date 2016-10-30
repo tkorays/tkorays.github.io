@@ -72,6 +72,7 @@ __clrcall是C++ .Net里面的。
 * D： char
 * E： unsigned char
 * F： short
+* G:  unsigned short
 * H： int
 * I： unsigned int
 * J： long
