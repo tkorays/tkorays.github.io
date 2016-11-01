@@ -1,0 +1,63 @@
+---
+layout: post
+title: Longest Palindromic Substring
+---
+Longest Palindromic Substring，最长回文字符串。所谓回文，即一个字符串正着读和反着读是一样的。回文相当有趣，古人也喜作回文事，这里附上一首明末浙江才女吴绛雪的《四时山水诗》，是不是很有意思？
+
+```
+莺啼岸柳弄春晴，
+柳弄春晴夜月明。
+明月夜晴春弄柳，
+晴春弄柳岸啼莺。
+```
+
+而对于回文字符串的搜索，也是一件相当有趣的事情。我们需要从一串字符中找到最长的回文字符串。这里我们一步步地思考，尝试用更多的方法去解决问题。
+
+## 1) 暴力求解(Brute Force)
+如果没人看你写的烂代码，也没人关注性能，你也可以偷偷地尝试暴力求解最长回文字符串。暴力求解一般可以这样考虑：
+
+* 在N个字符中选取一个起始字符，选取一个结束字符，这样可以得到$$C_N^2$$个串
+* 然后我们需要对这$$C_N^2$$个串进行检查，是否为回文字符串，以找到最长的。每次平均时间复杂度为O(N)
+* 因此，暴力求解的时间复杂度为$$O(N^3)$$。
+
+我敢打赌，敢这样写的人心理素质都是相当好的。
+
+## 2) 动态规划(Dynamic Programming)
+暴力求解虽然效率低，但是也并不能因为自己想到这种方法而自责，我们可以在暴力求解的基础上做些改进。为了减少对包含回文的字符串重复搜索，这里可以使用动态规划将$$O(N^3)$$改进到$$O(N^2)$$。
+
+对于一个回文字符串$$P_{i+1,j-1} = True$$，如果$$S_i=S_j$$，则有$$P_{i,j} = True$$。我们可以利用这个特点，将问题转化为DP问题。我们开始找到所有长度为1和长度为2度回文字符串，然后再找到长度为3、4......的回文字符串。
+
+这里我们需要创建一个$$O(N^2)$$的表来存储$$P_{i,j} = True / False$$，该算法运行时间为$$O(N^2)$$。
+
+<pre class="language-python">
+<code>
+def lps_dp(s):
+    n = len(s)
+    start = 0
+    max_len = 1
+    table = numpy.array([[False]*1000]*1000)
+    for i in range(n):
+        table[i][i] = True
+
+    # 长度为1或2的回文字符串
+    for i in range(n-1):
+        if s[i] == s[i+1]:
+            table[i][i+1] = True
+            max_len = 2
+            start = i
+    # 计算长度从3到n的回文字符串
+    for length in range(3,n+1):
+        for i in range(n - length + 1):
+            j = i + length - 1
+            if s[i] == s[j] and table[i+1][j-1]:
+                table[i][j] = True
+                start = i
+                max_len = length
+    return s[start:start+max_len]
+</code>
+</pre>
+
+### 未完待续
+
+
+
