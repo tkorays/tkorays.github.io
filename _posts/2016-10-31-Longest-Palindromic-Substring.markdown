@@ -43,16 +43,21 @@ def lps_dp(s):
     for i in range(n-1):
         if s[i] == s[i+1]:
             table[i][i+1] = True
-            max_len = 2
-            start = i
-    # 计算长度从3到n的回文字符串
+            # 获取第一个最长子串
+            max_len, start = (2, i) if max_len < 2 else (max_len, start)
+
+    # 对于每个字符串,判断长度从3到n点字符串是否为回文串
+    # 注意外层循环为长度
     for length in range(3,n+1):
+        # i从0到n-length
         for i in range(n - length + 1):
+            # j是i的对称点
             j = i + length - 1
             if s[i] == s[j] and table[i+1][j-1]:
                 table[i][j] = True
-                start = i
-                max_len = length
+                # 获取第一个最长子串
+                max_len, start = (length, i) if max_len < length \
+                    else (max_len, start)
     return s[start:start+max_len]
 </code>
 </pre>
