@@ -65,6 +65,8 @@ def lps_dp(s):
 ### 3) 继续优化，基于中点匹配
 因为回文串是对称的，因此，我们可以选取一个中间点，从中间点向左右匹配。中间点一共有2N+1种（长度为偶数点回文串中点可能在两个字符串中间），向左右匹配最长计算N/2，因此复杂度为$$O(N^2)$$。
 
+<img src="/public/post/img/lps_center.png" style="width:500px;margin: auto auto;"/>
+
 <pre class="language-python">
 <code>
 def lps_center(s):
