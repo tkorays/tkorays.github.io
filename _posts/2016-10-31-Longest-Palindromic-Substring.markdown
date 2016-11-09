@@ -62,7 +62,27 @@ def lps_dp(s):
 </code>
 </pre>
 
-### 未完待续
+### 3) 继续优化，基于中点匹配
+因为回文串是对称的，因此，我们可以选取一个中间点，从中间点向左右匹配。中间点一共有2N+1种（长度为偶数点回文串中点可能在两个字符串中间），向左右匹配最长计算N/2，因此复杂度为$$O(N^2)$$。
+
+<pre class="language-python">
+<code>
+def lps_center(s):
+    mc1, mc2 = 0, 0
+    n = len(s)
+    # from 0 to 2n-1
+    for i in range(2*n):
+        c1, c2 = int(i/2), int(i/2) + (i%2 if i != (2*n-1) else 0)
+        while c1 >= 0 and c2 <= n-1:
+            if s[c1] != s[c2]:
+                break
+            mc1, mc2 = (c1, c2) if (c2 - c1) > (mc2 - mc1) else (mc1, mc2)
+            c1, c2 = c1-1, c2+1
+    return s[mc1:mc2+1]
+</code>
+</pre>
+
+### 4) 继续优化，推导Manacher算法
 
 
 
