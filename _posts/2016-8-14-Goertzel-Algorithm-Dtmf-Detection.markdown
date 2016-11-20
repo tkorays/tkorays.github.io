@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Goertzel Algorithm(DTMF Detection)
+title: 【信号处理】Goertzel Algorithm(DTMF Detection)
 ---
 
 本文将介绍DTMF检测算法Goertzel。
@@ -136,7 +136,3 @@ title('DFT Magnitude')
 结果：
 
 <img src="/public/post/img/goertzel-result.png" style="margin:auto auto;"/>
-
-
-
-
