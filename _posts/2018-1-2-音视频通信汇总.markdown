@@ -1,0 +1,70 @@
+---
+layout: post
+title: 音视频汇总
+---
+
+## 1. 概览
+
+
+## 2. 组网与架构
+IMS、SBC、MCU
+
+## 3. 协议
+
+### 3.1 SIP相关
+* RFC 3261, SIP:  Session Initiation Protocol
+* RFC 2822, Internet Message Format
+* RFC 4582, The Binary Floor Control Protocol (BFCP)
+* RFC 4353, A Framework for Conferencing with the Session Initiation Protocol (SIP)
+* RFC 4579, Session Initiation Protocol (SIP) Call Control - Conferencing for User Agents
+* RFC 4575, A Session Initiation Protocol (SIP) Event Package for Conference State
+
+### 3.2 SDP相关
+* RFC 4566, SDP: Session Description Protocol
+* RFC 3264, An Offer/Answer Model with the Session Description Protocol (SDP)，SDP的offer/answer模型
+* RFC 4583, Session Description Protocol (SDP) Format for Binary Floor Control Protocol (BFCP) Streams
+* RFC 3556, Session Description Protocol (SDP) Bandwidth Modifiers for RTP Control Protocol (RTCP) Bandwidth，SDP带宽控制
+* RFC 3840, Indicating User Agent Capabilities in the Session Initiation Protocol (SIP)
+* RFC 5576, Source-Specific Media Attributes in the Session Description Protocol (SDP)
+* RFC 3890, A Transport Independent Bandwidth Modifier for the Session Description Protocol (SDP)
+* RFC 4568, Session Description Protocol (SDP) Security Descriptions for Media Streams
+
+### 3.3 RTP/RTCP相关
+* RFC 3550, RTP: A Transport Protocol for Real-Time Applications
+* RFC 3551, RTP Profile for Audio and Video Conferences with Minimal Control
+* RFC 3605, Real Time Control Protocol (RTCP) attribute in Session Description Protocol (SDP)
+* RFC 5109, RTP Payload Format for Generic Forward Error Correction
+* RFC 6184, RTP Payload Format for H.264 Video
+* RFC 4629, RTP Payload Format for ITU-T Rec. H.263 Video
+* RFC 3640, RTP Payload Format for Transport of MPEG-4 Elementary 
+* RFC 3711, The Secure Real-time Transport Protocol (SRTP)
+* RFC 2326, Real Time Streaming Protocol (RTSP)
+* RFC 5117, RTP Topologies
+* RFC 5104, Codec Control Messages in the RTP Audio-Visual Profile with Feedback(AVPF)
+
+
+### 3.4 音频编解码
+* ITU-T G.711，Pulse code modulation (PCM) of voice frequencies，窄带语音编码，64kbps
+* ITU-T G.722, 7 kHz audio-coding within 64 kbit/s，48, 56 and 64 kbit/s, 宽带语音编码, SB-ADPCM
+* ITU-T G.722.1, G.722.2
+* ITU-T G.723, Extensions of Recommendation G.721 adaptive differential pulse code modulation to 24 and 40 kbit/s for digital circuit multiplication equipment application (内容G.726中已有覆盖)
+* ITU-T G.726, 40, 32, 24, 16 kbit/s Adaptive Differential Pulse Code Modulation (ADPCM) 
+* ITU-T G.729, Coding of speech at 8 kbit/s using conjugate-structure algebraic-code-excited linear prediction (CS-ACELP) ， G.729A, G.729AB
+* ILBC
+* RFC 6716, Definition of the Opus Audio Codec， OPUS编解码
+
+### 3.4 视频编解码
+* H.264
+* H.265
+
+
+### 3.5 其他
+* RFC 3489, STUN - Simple Traversal of User Datagram Protocol (UDP) Through Network Address Translators (NATs)
+* RFC 3455, Private Header (P-Header) Extensions to the Session Initiation Protocol (SIP) for the 3rd-Generation Partnership Project (3GPP)
+* ITU-T Recommendation H.223, Multiplexing protocol for low bit rate multimedia communication
+* RFC 4376, Requirements for Floor Control Protocols，流控协议
+
+
+## 4. 开源库
+
+osip、 exosip 、 opensips 、 kmailio 、 asterisk 

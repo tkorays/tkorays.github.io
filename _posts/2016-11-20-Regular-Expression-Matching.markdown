@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 【算法练习】Regular Expression Matching
+title: (Algorithm)Regular Expression Matching
 ---
 
 ## 1.题目:
@@ -69,6 +69,6 @@ bool isMatch(char* s, char* p) {
 
 有几个地方需要注意：
 
-1）表达式可能出现`a*a*a*a*a*a*`这样的情况，事实上`a*==a*a*`，需要特出处理，否则计算会慢很多。
+1）表达式可能出现`a*a*a*a*a*a*`这样的情况，事实上`a*==a*a*`，需要特出处理，否则就会走过很多无需走的分支路径，计算会慢很多。
 
 2）使用递归的思想，很容易简化思路。

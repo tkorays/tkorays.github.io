@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 【信号处理】Goertzel Algorithm(DTMF Detection)
+title: Goertzel Algorithm(DTMF Detection)
 ---
 
 本文将介绍DTMF检测算法Goertzel。
