@@ -7,7 +7,11 @@ title: 音视频汇总
 
 
 ## 2. 组网与架构
-IMS、SBC、MCU
+
+IMS： IP Multimedia Subsystem，P多媒体子系统。
+
+SBC: 会话边界控制器, Session Border Controller。它使用全部三种VoIP协议——H.323关守、SIP代理和媒体网关控制协议（MGCP）。它会在未来的VoIP服务提供中发挥重要作用，允许跨越多个IP网络，即使有防火墙要穿越，也能提供有质量保障的VoIP服务。https://en.wikipedia.org/wiki/Session_border_controller
+
 
 ## 3. 协议
 
@@ -68,3 +72,4 @@ IMS、SBC、MCU
 ## 4. 开源库
 
 osip、 exosip 、 opensips 、 kmailio 、 asterisk 
+
