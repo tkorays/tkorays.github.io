@@ -1,6 +1,6 @@
 ---
 layout: post
-title: (Algorithm)Regular Expression Matching
+title: 算法 - Regular Expression Matching
 ---
 
 ## 1.题目:

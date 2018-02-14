@@ -1,6 +1,6 @@
 ---
 layout: post
-title: (Algorithm)Longest Palindromic Substring
+title: 算法 - Longest Palindromic Substring
 ---
 Longest Palindromic Substring，最长回文字符串。所谓回文，即一个字符串正着读和反着读是一样的。回文相当有趣，古人也喜作回文事，这里附上一首明末浙江才女吴绛雪的《四时山水诗》，是不是很有意思？
 
