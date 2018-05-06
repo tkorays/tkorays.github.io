@@ -74,6 +74,19 @@ PJSIP的内存池是按照块（block来组织的），所有的块以双向链�
      */
     unsigned flags;
 } pj_pool_factory_policy;
+
+/* 定义一个策略，如使用new分配内存 */
+PJ_DEF_DATA(pj_pool_factory_policy) pj_pool_factory_default_policy = 
+{
+    &operator_new,
+    &operator_delete,
+    &default_pool_callback,
+    0
+};
+PJ_DEF(const pj_pool_factory_policy*) pj_pool_factory_get_default_policy(void)
+{
+    return &pj_pool_factory_default_policy;
+}
 </code></pre>
 
 ## 4. 内存工厂
@@ -85,7 +98,7 @@ PJSIP的内存池实现上可扩展，应用可以通过创建自己的内存工
 * create_pool，创建一个新的内存池的方法
 * release_pool，释放内存池的方法
 
-其他方法如内存块如何申请、malloc实现、free实现、callback、并发等，都是通过策略来实现。
+其他方法如内存块如何申请，都是通过策略来实现。
 
 简而言之，`工厂管理内存池，策略实现块、内存的实现细节`！使用何种策略需要程序自己决定。
 <pre><code class="language-c">struct pj_pool_factory
@@ -157,7 +170,24 @@ PJSIP在申请内存的时候会自动保证字节对齐：
 block->cur = ALIGN_PTR(block->buf, PJ_POOL_ALIGNMENT);
 </code></pre>
 
+## 7. buffer内存池
+PJSIP提供了一种在buffer上创建内存池的机制，可以先创建一块buffer，内存池以该块内存分配。结束后并不需要释放内存池。见头文件`pj/pool_buf.h`。
+<pre><code class="language-c">PJ_DECL(pj_pool_t*) pj_pool_create_on_buf(const char *name,
+                      void *buf,
+                      pj_size_t size);
+/* demo */
+char buffer[500];
+pj_pool_t *pool;
+void *p;
 
+pool = pj_pool_create_on_buf("thepool", buffer, sizeof(buffer));
+
+// Use the pool as usual
+p = pj_pool_alloc(pool, ...);
+...
+
+// No need to release the pool
+</code></pre>
 
 
 
