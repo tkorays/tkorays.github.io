@@ -48,7 +48,13 @@ $$
 引入了流量整形，势必会带来时延的增加，因此兼顾减少拥塞和减少时延是一个需要关注的挑战。
 
 # 3. srTCM和trTCM
-上面介绍的是一个简单的令牌桶模型，在QoS中，有两种更高级的算法，即srTCM(single rate Three Color Marker)和trTCM(two rate Three Color Marker)。这里我们将详细介绍这两种令牌桶算法。
+上面介绍的是一个简单的令牌桶模型，在实际使用中，我们还常用到另外两种更高级的桶。上面的令牌桶我们称之为`单桶单速`，下面我们将介绍单速双桶和双速双桶，分别对应这RFC2697中的`srTCM(single rate Three Color Marker)`和RFC2698中的`trTCM(two rate Three Color Marker)`。这里我们将详细介绍这两种算法。
+
+## 3.1 srTCM
+srTCM即`单速率三色标记法`，对应`单速双桶`算法，该算法在RFC2697有详细介绍。
+
+## 3.2 trTCM
+trTCM即`双速率三色标记法`，对应`双速双桶`算法，该算法在RFC2698有详细介绍。
 
 
 # 4. 总结
