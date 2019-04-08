@@ -71,4 +71,86 @@ git checkout -- '*.txt'
 分支切换执行如下：`git checkout master`，`git checkout -b xxxx`可以从当前分支创建新的分支。
 
 ## 3.6 变基
-变基(rebase)是一定要熟悉的命令，非常使用，它的作用是将commit应用到其他的节点基础上，通常使用交互式变基`git rebase -i`和`git rebase --continue`来完成。下面结合例子来看。
+变基(rebase)是一定要熟悉的命令，非常使用，它的作用是将commit应用到其他的节点基础上，通常使用交互式变基`git rebase -i`和`git rebase --continue`来完成。
+
+```shell
+git rebase -i HEAD~2
+```
+
+上面的命令表示对HEAD最近的两次进行变基，执行完成后，剩下的操作都是交互式完成的:
+
+第一步，git会打开默认的编辑器（一般是vim，用户可以设置），让你去编辑，声明将要执行的操作。
+
+```
+  1 pick aaea16b aaaaa
+  2 pick 612734a bbbbb
+  3
+  4 # Rebase 8627642..612734a onto 8627642 (2 commands)
+  5 #
+  6 # Commands:
+  7 # p, pick = use commit
+  8 # r, reword = use commit, but edit the commit message
+  9 # e, edit = use commit, but stop for amending
+ 10 # s, squash = use commit, but meld into previous commit
+ 11 # f, fixup = like "squash", but discard this commit's log message
+ 12 # x, exec = run command (the rest of the line) using shell
+ 13 # d, drop = remove commit
+```
+
+如上图，你可以执行的操作有：
+
+* pick，选择这个提交，这个意味着你可以删除某些节点
+* reword，使用提交但是需要修改commit log
+* edit，修改这次提交的内容，git最终应用这些节点的时候会在这个节点停下来，等待修改
+* squash，用于压缩多个commit到前面的一个commit中，保留commit log
+* fixup，类似squash，但是丢弃commit log
+* drop，删除commit
+
+这里你可以修改这些节点的操作、删除节点以及调整顺序，修改完成后保存文件。保存后，git就开始应用这些修改，基于最开始的节点，一个节点一个节点地处理。
+
+* 遇到pick的，则将该节点查到头部
+* 遇到drop的，则移除该节点
+* 遇到edit的，则停在该节点，用户需要修改，执行`git commit --amend`修改，执行`git add`确认已经解决所有冲突，最后执行`git rebase --continue`继续处理下一个节点。
+
+```shell
+git:(master) git rebase -i HEAD~2
+Stopped at 612734a...  bbbbb
+You can amend the commit now, with
+
+  git commit --amend
+
+Once you are satisfied with your changes, run
+
+  git rebase --continue
+```
+ 
+## 3.7 cherry-pick
+`git cherry-pick commit-id`用于从其他修改节点应用修改，可以跨分支。这个在合并代码的时候非常有用，如果你想将自己在其他分支的几个修改点合到当前分支，可以用这个命令。如果出现冲突：
+
+* 修改代码解决冲突
+* `git add`用来确认冲突文件已经resolved
+* `git cherry-pick --continue`继续，完成一次cherry-pick
+
+如果比较棘手，想撤销cherry-pick，执行`git cherry-pick --abort`。
+
+## 3.8 分支合并
+
+## 3.9 远端仓库
+`git remote`主要用来管理远端仓库。我们的本地的代码库可以添加多个远端仓库。
+
+* `git remote add 远端仓库名 url`
+* `git remote remove 远端仓库名`
+* `git remote rename oldname newname`
+
+## 3.10 fetch
+`git fetch`用来从其他库下载对象。
+
+`git fetch 远端仓库名 分支名`，只下载代码，而并不会在本地创建分支，需要手动checkout才能检出。注意这个命令和`git pull`的区别。
+
+
+## 3.11 pull
+
+## 3.12 reset
+
+## 3.13 revert
+
