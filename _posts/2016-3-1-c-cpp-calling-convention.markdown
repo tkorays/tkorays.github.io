@@ -100,5 +100,10 @@ __clrcall是C++ .Net里面的。
 * `?FuncA@ClassA@@QAEXH@Z`表示`void ClassA::FuncA(int);`。
 * `?FuncB@ClassA@@QAEXABV1@Z`表示`void ClassA::FuncB(const ClassA&);`
 
+---
+
+_如果您觉得文章对您有用能够解决您的问题，欢迎您通过扫码进行打赏支持，谢谢！_
+
+<img src="/public/post/img/alipay.jpg" style="width: 200px;margin:auto auto;"/>
 
 

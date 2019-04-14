@@ -194,3 +194,8 @@ git revert的作用是创建一个新的提交，并将代码还原到之前到�
 ## 3.14 帮助
 如果命令不会，就用 `git xxx --help`，肯定能找到答案的。
 
+---
+
+_如果您觉得文章对您有用能够解决您的问题，欢迎您通过扫码进行打赏支持，谢谢！_
+
+<img src="/public/post/img/alipay.jpg" style="width: 200px;margin:auto auto;"/>

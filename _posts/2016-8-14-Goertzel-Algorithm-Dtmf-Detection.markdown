@@ -136,3 +136,10 @@ title('DFT Magnitude')
 结果：
 
 <img src="/public/post/img/goertzel-result.png" style="margin:auto auto;"/>
+
+---
+
+_如果您觉得文章对您有用能够解决您的问题，欢迎您通过扫码进行打赏支持，谢谢！_
+
+<img src="/public/post/img/alipay.jpg" style="width: 200px;margin:auto auto;"/>
+
