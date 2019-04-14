@@ -35,7 +35,7 @@ What now> 1
 
 还有一个`git commit -a`或者`git commit -am xxxx`，可以用来让git自动暂存文件，它只会对修改和删除的文件生效，不影响新增的文件。因此如果只是修改或删除文件，可以放心使用。
 
-`git commit --amend`也是一个比较常用的命令，可以对上次提交的内容进行修改，也可以对上次提交的log修改。
+`git commit --amend`是一个比较常用的命令，可以对上次提交的内容进行修改，也可以对上次提交的log修改。你可以直接修改文件，然后执行`git commit --amend --no-edit`，就可以基于上次的提交修改，不产生一次新的提交。其中`--no-edit`表示不会修改提交记录，如果你需要修改提交记录，那么请不要指定这个选项，git会打开默认编辑器让你修改提交信息。
 
 ## 3.4 储藏修改
 如果你在当前的A分支做了很多修改，代码写的比较乱，不想直接commit。此时又有一个新的需求，要切换到B分支上开发，这时候你可以用`git stash`来储藏修改。当执行`git stash`后，git会将你修改的文件以及新增的还没有跟踪的文件全都保存起来，放到git维护的栈中。
@@ -74,7 +74,11 @@ git checkout -- '*.txt'
 分支切换执行如下：`git checkout master`，`git checkout -b xxxx`可以从当前分支创建新的分支。
 
 ## 3.6 变基
-变基(rebase)是一定要熟悉的命令，非常使用，它的作用是将commit应用到其他的节点基础上，通常使用交互式变基`git rebase -i`和`git rebase --continue`来完成。
+变基(rebase)是一定要熟悉的命令，非常实用，它的作用是从某个commit开始，将后续commit应用到其他的节点基础上。它可以对当前分支应用，也可以跨分支应用，也就是说其实可以做分支合并。
+
+变基对优点在于会让你对历史记录变得非常整洁，缺点也很明显，由于它会对当前分支历史修改，因此并不能取代merge。特别需要强调的是，`千万不要在公共分支上做rebase`，rebase一般在本地或个人分支做（个人分支rebase后需要git push -f才能推送上去）！
+
+通常使用交互式变基`git rebase -i`和`git rebase --continue`来完成。
 
 ```shell
 git rebase -i HEAD~2
@@ -137,6 +141,11 @@ Once you are satisfied with your changes, run
 如果比较棘手，想撤销cherry-pick，执行`git cherry-pick --abort`。
 
 ## 3.8 分支合并
+分支合并也比较简单，比如切到某个要合并的分支，执行`git merge branchA`就可以将分支branchA的代码合并到当前分支，剩下的就是要解决冲突。
+
+解决冲突主要靠：修改代码、git add、git merge --continue、git merge --abort这几个命令来实现。和git rebase基本相同。
+
+`git merge --squash`和rebase里面的squash很像（该功能也可以由rebase实现），它用于将另一个分支合到当前分支，并且只产生一个commit。对于个人分支上库前合并比较使用，但是对于两个正式分支，不要随便使用。
 
 ## 3.9 远端仓库
 `git remote`主要用来管理远端仓库。我们的本地的代码库可以添加多个远端仓库。
@@ -152,8 +161,36 @@ Once you are satisfied with your changes, run
 
 
 ## 3.11 pull
+git pull用来从远端拉代码。`git pull [upstream] [branch]`，如果加上`-r`，可以在拉完代码后，在本地做变基。
 
 ## 3.12 reset
+`git reset`，可以用来还原暂存区。
+
+也可以将HEAD还原到某个commit（`git commit [mode] [commit]`），常用到几个选项：
+
+* `git reset --soft`，不修改暂存区和工作目录，仅仅将HEAD指向某个节点
+* `git reset --hard`，修改暂存区和工作目录到该节点，并将HEAD指向该节点
+* `git reset --mixed`，修改暂存区，不改变工作目录，并将HEAD指向该节点
+
+使用git reset意味着你需要抛弃后面的一些修改。
+
+比如你发现最近的一个代码拼写错误，可以：
+
+* `git reset --soft HEAD^`，HEAD指向前一次commit，当前暂存区和工作目录不变
+* 编辑文件
+* git add xxx，将修改加入暂存区
+* git commit -c ORIG_HEAD，使用上次的HEAD（也就是reset前HEAD指向）的提交信息重新提交
+
+这个可以做到，使用当前的log修改后重新提交。这个功能也可以通过`git commit --amend`实现。
+
+如果你是想还原很久之前的一个修改，可以使用`git revert`。
+
 
 ## 3.13 revert
+git revert的作用是创建一个新的提交，并将代码还原到之前到某个版本。这个命令和reset有点不一样，reset是直接修改HEAD并丢弃后面的commit历史，而revert会保留后续记录。如果在公共分支上，推荐使用revet，因为它会保留记录，便于溯源。
+
+`git revert commit-id`，用于回退某个节点的修改，`git revert -n master~5..master~2`，用于回退某一段修改。
+
+## 3.14 帮助
+如果命令不会，就用 `git xxx --help`，肯定能找到答案的。
 
