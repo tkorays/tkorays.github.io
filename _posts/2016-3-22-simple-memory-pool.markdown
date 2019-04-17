@@ -200,10 +200,3 @@ size_t mem_pool_block_num(mem_pool_t* pool){
 
 所以下一步，当然需要把那些简化掉的功能加上，如加锁、内存释放、地址对齐等等。
 
-
----
-
-_如果您觉得文章对您有用能够解决您的问题，欢迎您通过扫码进行打赏支持，谢谢！_
-
-<img src="/public/post/img/alipay.jpg" style="width: 200px;margin:auto auto;"/>
-
