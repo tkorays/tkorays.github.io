@@ -45,7 +45,7 @@ virtual void Init(Callback* callback, Mode mode) = 0;
 virtual void Capture() = 0;
 ```
 
-DesktopAndCursorComposer实现了MouseCursorMonitor::Callback和DesktopCapturer::Callback接口，`将鼠标和画面混合一起发送`。
+DesktopAndCursorComposer实现了MouseCursorMonitor::Callback和DesktopCapturer::Callback接口，将鼠标和画面混合一起发送。
 
 ## 2 鼠标位图表示
 鼠标采集形状数据采用`MouseCursor`表示：
@@ -101,4 +101,4 @@ int src_stride = CGImageGetBytesPerRow(cg_image);
 ```
 
 ## 5 总结
-WebRTC里面的鼠标采集还是太简单了，笔者自己之前的实现比WebRTC的功能更强大，细节更完善，这里只吹吹，怎么实现的这是个秘密，哈哈。但是WebRTC的实现也给了我很多启发，不得不说他们的代码写的很赞，鼠标采集、屏幕采集等抽象得很简单。
+WebRTC里面的鼠标采集还是太简单了，笔者自己之前的实现比WebRTC的功能更强大，细节更完善。但是WebRTC的实现也给了我很多启发，不得不说他们的代码写的很赞，鼠标采集、屏幕采集等抽象得很简单。
