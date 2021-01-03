@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 音视频 - 音视频汇总
+title: 音视频 - 音视频协议汇总
 ---
 
 ## 1. 概览
@@ -70,6 +70,13 @@ SBC: 会话边界控制器, Session Border Controller。它使用全部三种VoI
 
 
 ## 4. 开源库
-
-osip、 exosip 、 opensips 、 kmailio 、 asterisk 
+* osip
+* exosip
+* opensips
+* kmailio
+* asterisk
+* licode
+* webrtc
+* ffmpeg
+* gstreamer
 

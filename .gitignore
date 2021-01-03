@@ -4,6 +4,7 @@ _site/
 .idea
 .sass-cache/
 .jekyll-cache/
+.vscode/
 *~
 bourbon/
 Gemfile.lock

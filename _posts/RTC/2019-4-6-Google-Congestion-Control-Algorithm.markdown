@@ -3,12 +3,139 @@ layout: post
 title: Google Congestion Control Algorithm
 ---
 
-在实时音视频通信中，由于报文流量巨大，不可避免地遇到网络拥塞问题，因此如何解决拥塞变成了一大难题。这里将要介绍地是google的拥塞控制算法GCC（google congestion control），下面将结合标准文档以及实际使用讲解下自己对这个算法的理解。
+> tkorays: 未经同意，不得转载。
+> 重构中……尚未完成
 
-## 1. 核心思想
-在网络拥塞出现的时候，通常采用降低信源端发送码率来避免，因此该算法解决问题的核心在于`如何合理地动态估算并调整信源端发送带宽，以避免网络拥塞出现`。那怎么感知网络拥塞并估算带宽？业界主要有两种方法，即`基于丢包率(loss based)`估算和`根据时延(delay based)`估算，而GCC采用了这两种方法来进行拥塞感知和带宽估计，对应基于丢包的控制器（loss based controller）和基于时延的控制器（delay based controller），一般场景先在接收端使用基于时延的控制器估计带宽，然后通过RTCP feedback将带宽$$A_i$$反馈给发送端，发送端再根据基于时延的控制器反馈的带宽$$\bar{A}_i$$以及RTCP反馈的丢包fraction of lost packets、环路时延RTT来评估得到带宽$$\bar{As}_i$$，最终的带宽取$$\min\{\bar{A}_i, \bar{As}_\}$$。
+网络拥塞（Congestion）是通信中绕不过的一个问题，在实时音视频通信开发中占据了比较重要的位置。在音视频中出现的大多数网络问题都可以建模为拥塞，虽然他们表现不太一致，但是实际上都是不同拥塞现象的表现。目前在RTC中，关注最多的拥塞控制方法当属GCC（Google Congestion Control），这也是WebRTC中默认的拥塞控制方法。下面将结合下自己的理解，介绍下GCC算法。
 
-## 2. 工作原理
+# 1. 拥塞控制介绍
+在介绍拥塞控制(Congestion Control)之前，必须要了解什么是拥塞(Congestion)。
+
+我们都知道网络链路是一种共享的、有限资源，这些资源一般我们可以简单认为是路由器、交换机等的缓存（buffer）或者说是内存，因为链路中资源是有限的，因此在链路过载（overload/overuse）的时候，就不可避免地导致缓存太多数据导致传输延迟增加，一旦过载超过阈值就会出现丢包。在早期的网络中，因为没有拥塞控制，很容易出现拥塞崩溃。
+
+## 1.1 拥塞控制历史介绍
+我们知道WebRTC里面音视频传输采用的是UDP协议，因此GCC也是基于UDP协议的，我们在谈到GCC协议的时候，总是会想到TCP的拥塞控制，事实上GCC不是凭空产生的，它也是从TCP的拥塞控制协议发展而来。因此，这里简单介绍一下TCP的拥塞控制方法。
+
+拥塞控制的发展是随着人们对拥塞的深入理解而出现更多的方法。一开始，网络设备的内存都比较小，过载后很容易出发丢包，因此大家把丢包当做拥塞的信号，一旦出现丢包即认为是拥塞，需要降低发送码率。但是，随着技术发展，路由器、交换机的内存越来越大，缓存的数据也越来越多，拥塞的时候并不会先发生丢包，拥塞会导致缓存数据越来越多，因此一般都是延迟越来越大，最后才出现丢包，这个时候并不能用丢包作为拥塞的信号了。为了检测这种延迟，先后出现了基于双向延迟（RTT）、单向延迟等方法。关于拥塞的原理，建议大家去了解下路由器的队列管理（Queue Management），它会让你对拥塞有新的认识。
+
+综上，可以提炼出主要的两个拥塞控制方法：`基于丢包的拥塞控制`和`基于延迟的拥塞控制`，GCC的拥塞控制正是基于这两个思想。当然，GCC的方法是不是就是银弹？显然他不是的，GCC并不能解决所有的问题，所以后面大家才越来越关注BBR和PCC。
+
+## 1.2 GCC原理总结
+GCC算法的核心在于，根据丢包和单向延迟分别估计出带宽，编码器根据估计带宽调整编码码率，pacer根据估计带宽平滑发送数据，通过这种方式从源端控制，避免发送过多数据导致网络出现拥塞。
+
+目前，GCC的拥塞控制都是运行在发送端，（老版本的基于延迟的拥塞控制运行在接收端，通过REMB反馈估计带宽，这个方法这里不作太多介绍），通过RTCP RR报文获取loss，通过TCC（Transport Wide Congestion Control）机制在发送端运行基于延迟的拥塞控制，最终得到两个估计带宽，综合取小后即是最终的估计带宽。
+
+# 2. GCC工作原理
+目前的WebRTC里面的GCC都是运行在发送端，下面将介绍基于延迟的带宽估计和基于丢包的带宽估计。老版本的使用kalman滤波做拥塞检测的这里不再做介绍，主要介绍基于趋势滤波器的方式。
+## 2.1 基于延迟(delay based)的带宽估计
+delay based拥塞控制包含几个部分：
+* `InterArrival`：以包组方式计算包组间相对延迟
+* `TrendlineEstimator`：继承自`DelayIncreaseDetectorInterface`，检测延迟增加判断是否处于overuse/underuse
+* `AimdRateControl`：实现了`AIMD`，即underuse的时候线性增加估计带宽，overuse的时候乘性降低
+
+这里需要在发送端获取接收报文的单向延迟信息，因此需要在接收端将报文的接收时间反馈到发送端，这个通过TCC feedback机制来实现。下面将重点介绍TCC以及这几个拥塞控制模块的作用。
+### 2.1.1 TCC（Transport-wide Congestion Control）
+发送端的delay based拥塞控制都是建立在TCC的基础上的。
+
+transport wide sequence number和Transport wide Feedback分别对应RTP和RTP扩展，以下简称TCC seq和TCC feedback，其标准见[Transport-wide Congestion Control](https://datatracker.ietf.org/doc/html/draft-holmer-rmcat-transport-wide-cc-extensions-01)。
+* TCC seq是一个RTP扩展，他给同一个rtp bundle内的所有流打上一个连续的sequence number，实现了传输范围（transport wide）的拥塞控制
+* TCC feedback是一个RTCP扩展，它在接收端记录所有TCC报文的接收时间，并将TCC seq和其接收时间反馈到发送端。
+
+通过TCC，我们便可以在发送端获取到报文的单向延迟，这样便可以在发送端做基于延迟的拥塞控制。发送端对于发送的报文都会记录其seq和发送时间，这些seq在收到其TCC feedback确认后，编可以送到`InterArrival`去做延迟的估计。
+
+### 2.1.2 InterArrival:基于包组的延迟估计
+计算相对延迟的时候，不是按照逐包计算，而是以包组（Packet Group）的方式。对于包组技术的介绍，可以看看google给的解释：[Making Google Congestion Control robust over Wi-Fi networks using packet grouping](https://irtf.org/anrw/2016/anrw16-final14.pdf)。简单点说，就是像wifi这种信道，会因为各种原因会存在短暂的信道中断（outage），带来的现象是报文会在路由器上聚集后同时到达接收端，同时我们的pacer 5ms调度一次也会瞬间有多个报文同时发送出去。这种报文聚集想现象导致以单个包为单位计算相对延迟不是很准确，因此，这里才会以包组的聚合方式，这样相对来说能够得到更准确的结果。
+
+相对延迟的计算，相对大家都比较清楚了，即相邻两组包的接收时间差减去发送时间差。如果报文大小相等、网络良好，那么相对延迟是0.如果网络出现拥塞，报文在网络中被延迟，因此这个相对延迟会会增加。
+
+$$
+d_i = (t_i - t_{i-1}) - (T_i - T_{i-1})
+$$
+
+`InterArrival`重点关注怎么去划分包组：。
+* 一般而言，距离当前group的第一个包发送时间超过5ms，则开始新的分组。因为发送端的聚集一般是由于pacer的调度间隔，一般不存在较大的其他的聚集情况
+* 如果当前包相对于当前group是burst，则仍划分到当前分组中，这就是上面所说道的包组（packet group）的核心。
+* 同一时间发送的数据，一定是属于同一个分组，这其实是发送端burst
+
+wifi环境突然出现的outage会导致这个现象，一段时间内所有的包聚集到达，相对上一个包的传输延迟`di < 0`，即发送时间差小于接收时间差。burst的完整条件是：传输延迟小于0、距离上个包接收时间小于5ms、分组的接收时间跨度小于100ms。此处贴下代码，可以让大家加深下理解：
+
+```cpp
+bool InterArrival::BelongsToBurst(int64_t arrival_time_ms,
+                                  uint32_t timestamp) const {
+  if (!burst_grouping_) {
+    return false;
+  }
+  int64_t arrival_time_delta_ms =
+      arrival_time_ms - current_timestamp_group_.complete_time_ms;
+  uint32_t timestamp_diff = timestamp - current_timestamp_group_.timestamp;
+  int64_t ts_delta_ms = timestamp_to_ms_coeff_ * timestamp_diff + 0.5;
+  // 统一时间发送，发送端burst
+  if (ts_delta_ms == 0)
+    return true;
+  // 传播延迟因为这当前包相对于上个包在网络传输上的延迟增量，为负标识提前到达，一般是包组聚集的表现
+  int propagation_delta_ms = arrival_time_delta_ms - ts_delta_ms;
+  // 接收存在聚集 & 到达时间delta小于5ms & 分组跨度不超过100ms
+  if (propagation_delta_ms < 0 &&
+      arrival_time_delta_ms <= kBurstDeltaThresholdMs &&
+      arrival_time_ms - current_timestamp_group_.first_arrival_ms <
+          kMaxBurstDurationMs)
+    return true;
+  return false;
+}
+```
+
+包组分明后，便可以以包组为单位计算包组之间的相对延迟。`InterArrival`的输出包括：
+* 包组是否完成，是否需要计算delta信息
+* 前后两个包组的发送时间差（以timestamp为单位，*包组发送时间取第一个发送包的时间*）
+* 前后两个包组的接收时间差（以ms为单位，*包组的接收时间取包组最后一个接收包的时间*）
+* 前后两个包组的总字节数差
+
+输出的这些信息用于Trendline Filter估计延迟的趋势，并通过趋势来判断当前是否拥塞。
+
+### 2.1.3 Trendline Filter
+不同于老版本的WebRTC，新版本的WebRTC将延迟的带宽估计放在了发送端，并通过Trendline Filter估计单向延迟的趋势，拿这个趋势和阈值比较确定当前是否出现拥塞。
+
+Trendline使用了最小二乘法拟合一条直线，`y = kx + b`，即随着时间变化，相对延迟是否成上升趋势，趋势通过拟合的直线斜率描述。具体的做法：
+* 计算两个包组的相对时间差（包组的接收时间差 - 包组的发送时间差），并对这个delta做一个平滑，这个平滑后的数据被称作smoothed_delay。
+
+$$
+accumulated\_delay += delta\_ms  \\
+smoothed\_delay = coef * smoothed\_delay + (1 -  coef) * accumulated\_delay
+$$
+
+* 最小二乘法拟合直线斜率，这里x就是接收时间，y是上面的smoothed_delay，这里的k即趋势trend，代码就不贴了，公式已经很清晰：
+
+$$
+\bar{x} = (\sum_{i}{x}) / N \\
+\bar{y} = (\sum_{i}{y}) / N \\
+k = \frac{\sum_{i}{(y_i - \bar{y})(x_i - \bar{x})}}{\sum_{i}{(x_i - \bar{x})^2}}
+$$
+
+* 将trend和阈值比较，返回当前的状态overuse/underuse/normal
+> * 拥塞的时候k值可能比较小，不能明显地体现出来，因此需要做一个增益：`min(num_of_deltas, 60)*trend*gain`，增益一般为4，初始阶段最终增益随着delta个数增加，后续判断都是拿这个做完增益后的trend去比较
+> * 比较的阈值为初始为T=12.5，简单点说，超过阈值T就是overuse，低于阈值-T就是underuse，在这之间都是normal
+> * 但是为了抗抖动，overuse的除法需要谨慎，限制overuse的时间（10ms）和次数超过阈值（1次）后，才算一次overuse。
+> * overuse和underuse的阈值不是一致不变的，如果当前的trend距离阈值比较远的时候需要适当调整阈值，避免阈值钝化。这里上调和下调的参数不同，上调慢，下调快。详见`TrendlineEstimator::UpdateThreshold`。
+
+
+### 2.1.4 AimdRateControl
+Trendline的输出为三个状态：`Overusing`、`Underusing`、`Normal`。overuse的时候表示拥塞需要降低带宽，非overuse的时候需要增加带宽，增加和降低遵循AIMD原则，即线性增加乘性降低。
+
+AIMD有三个状态，分别为Increase、Decrease、Hold。状态转换图如下：
+
+<img src="/public/post/img/gcc-state.png" style="width: 300px;margin:auto auto;"/>
+
+Hold不用多解释，即保持当前带宽不变。下面介绍下Increase和Decrease。
+
+## 2.2 基于丢包（loss based）的带宽估计
+
+
+## 2.3 带宽估计汇总
+
+
+# 3. 总结
+
+
 这个算法先估计带宽，再按照指定带宽发送码流。实现带宽算法有两种方法：
 
 * 基于丢包的控制器和基于时延的控制器都运行在发送端
