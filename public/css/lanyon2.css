@@ -75,6 +75,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
+ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+ul li {
+    background-image: url(/public/img/article.gif);
+    background-size:12px 12px;
+    background-repeat: no-repeat;
+    background-position: 0px 8px; 
+    padding-left: 14px; 
+}
 
 /*
  * Wrapper

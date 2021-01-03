@@ -3,6 +3,7 @@ _site/
 .*.swp
 .idea
 .sass-cache/
+.jekyll-cache/
 *~
 bourbon/
 Gemfile.lock
