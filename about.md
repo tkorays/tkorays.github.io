@@ -3,7 +3,7 @@ layout: page
 title: About
 ---
 
-我是`t.korays`. 一名音视频工程师，主要开发语言C/C++。
+我是`tkorays | 言剑`，一名音视频工程师，主要开发语言C/C++。
 
 * WebRTC、音视频媒体架构。
 * 熟悉python、perl，爱折腾工具。
@@ -16,4 +16,3 @@ Find me on [Github][github] / [Weibo][weibo].
 
 [weibo]: http://weibo.com/tkorays
 [github]: http://github.com/tkorays
-~                                                                                                                                                                                    

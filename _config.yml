@@ -9,9 +9,9 @@ markdown:         kramdown
 highlighter:      rouge
 permalink:        pretty
 
-title:            tkorays
+title:            tkorays|言剑
 tagline:          'Write code every day...'
-description:      'tkorays'
+description:      'tkorays|言剑 的个人博客'
 url:              http://www.tkorays.com
 
 author:

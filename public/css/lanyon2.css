@@ -41,18 +41,18 @@ body {
 }
 
 html {
-  font-family: "PT Serif", Georgia, "Times New Roman", serif;
+  font-family: "PT Serif", Georgia, "Times New Roman", serif, "Microsoft YaHei";
 }
 
 p, li {
   font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-  font-size:  18px;
+  font-size:  16px;
   line-height: 1.8;
 }
 
 h1, h2, h3, h4, h5, h6 {
   /*font-family: "PT Sans", Helvetica, Arial, sans-serif;*/
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, Helvetica, STKaiti, SimSun, serif;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, Helvetica, STKaiti, SimSun, serif, "Microsoft YaHei";
   font-weight: 400;
   color: #666666;
   letter-spacing: -.025rem;
@@ -208,6 +208,7 @@ ul li {
 }
 .sidebar-item p:last-child {
   margin-bottom: 0;
+  font-size: .70rem;
 }
 
 /* Sidebar nav */
@@ -561,4 +562,14 @@ a.pagination-item:hover {
 .theme-base-0f .sidebar-toggle,
 .theme-base-0f .related-posts li a:hover {
   color: #8f5536;
+}
+
+.year-tag {
+  font-family: "lucida grande", "lucida sans unicode", lucida, helvetica;
+  font-size: 1.5rem;
+  /* color:#8f5536; */
+}
+
+div[class*=language-] {
+  font-size: 0.5rem;
 }
